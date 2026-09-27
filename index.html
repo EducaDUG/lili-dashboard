@@ -162,11 +162,11 @@
   "professional_observation_note": "The learning notes in this dashboard are Mr. Guevara's professional observations based on lessons. They are not fixed labels, diagnoses, grades, or formal assessment results.",
   "stats": {
     "sessions_logged": 4,
-    "distinct_skills_tried": 34,
+    "distinct_skills_tried": 4,
     "milestones_hit": 2
   },
   "skill_threads": {
-    "Scientific vocabulary & recall": [
+    "Initiative and self-direction": [
       {
         "session_date_iso": "2026-09-02",
         "session_date": "2 September 2026",
@@ -180,14 +180,18 @@
         "lesson_title": "Five Kingdoms Of Life",
         "stage": "Developing",
         "evidence": "Lili worked out independently that a hard-to-place specimen was a fungus, reasoning correctly that it spreads by releasing spores into the air rather than moving like an animal."
-      },
+      }
+    ],
+    "Communication": [
       {
         "session_date_iso": "2026-09-16",
         "session_date": "16 September 2026",
         "lesson_title": "Kingdoms And The Nucleus",
         "stage": "Growing",
         "evidence": "Lili re-engaged smoothly with the lesson's activity after joining partway through, and reasoned steadily through the nucleus distinction that separates bacteria from the other four kingdoms."
-      },
+      }
+    ],
+    "Productivity and leadership": [
       {
         "session_date_iso": "2026-09-23",
         "session_date": "23 September 2026",
@@ -196,43 +200,13 @@
         "evidence": "Lili retained the eight characteristics of living organisms from the previous lesson, and self-corrected her understanding of saprophytic nutrition within the same session."
       }
     ],
-    "Core subject understanding": [
-      {
-        "session_date_iso": "2026-09-02",
-        "session_date": "2 September 2026",
-        "lesson_title": "Characteristics Of Living Organisms",
-        "stage": "Emerging",
-        "evidence": "Lili produced her own memory icons for MRS C GREN, and reasoned independently that wool and cotton come from living things but are not themselves alive."
-      },
-      {
-        "session_date_iso": "2026-09-09",
-        "session_date": "9 September 2026",
-        "lesson_title": "Five Kingdoms Of Life",
-        "stage": "Developing",
-        "evidence": "Lili worked out independently that a hard-to-place specimen was a fungus, reasoning correctly that it spreads by releasing spores into the air rather than moving like an animal."
-      },
+    "Critical thinking": [
       {
         "session_date_iso": "2026-09-16",
         "session_date": "16 September 2026",
         "lesson_title": "Kingdoms And The Nucleus",
         "stage": "Growing",
         "evidence": "Lili re-engaged smoothly with the lesson's activity after joining partway through, and reasoned steadily through the nucleus distinction that separates bacteria from the other four kingdoms."
-      },
-      {
-        "session_date_iso": "2026-09-23",
-        "session_date": "23 September 2026",
-        "lesson_title": "Fungi And Protoctists",
-        "stage": "Secure",
-        "evidence": "Lili retained the eight characteristics of living organisms from the previous lesson, and self-corrected her understanding of saprophytic nutrition within the same session."
-      }
-    ],
-    "Independent reasoning & scientific curiosity": [
-      {
-        "session_date_iso": "2026-09-23",
-        "session_date": "23 September 2026",
-        "lesson_title": "Fungi And Protoctists",
-        "stage": "Developing",
-        "evidence": "Lili retained the eight characteristics of living organisms from the previous lesson, and self-corrected her understanding of saprophytic nutrition within the same session."
       }
     ]
   },
@@ -1023,8 +997,7 @@
       }
     }
   ]
-}
-</script>
+}</script>
 <script>
 const DISCLAIMER = "This is a voluntary teaching resource created by Mr. Guevara to add as much value as possible for families and students. It is not a requirement of Crimson Global Academy, and other teachers may not provide anything similar — this is not part of what CGA officially offers. Please refer to the Learning Lab as the official Crimson Global Academy resource, where assignments, grades, deadlines, and formal progress reports are provided. The information here is supplementary and is not part of any official session report or progress report sent by the school.";
 
@@ -1073,10 +1046,18 @@ function joinProse(arr){
 
 /* Renders any field that might be a plain string, a real array, or the
    Python-repr-list-as-string bug as clean prose text (HTML-escaped). */
+/* Capitalizes the first letter of a joined/flowing sentence without
+   touching the rest of the string (so mid-sentence proper nouns etc. are
+   left alone). Safe to call on an already-capitalized or empty string. */
+function capitalizeFirst(s){
+  if (!s) return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 function proseField(v){
   const asArray = toArrayOfStrings(v);
-  if (asArray !== null) return esc(joinProse(asArray));
-  return esc(v || "");
+  if (asArray !== null) return capitalizeFirst(esc(joinProse(asArray)));
+  return capitalizeFirst(esc(v || ""));
 }
 
 function footerHtml(){
@@ -1273,8 +1254,7 @@ function renderProgress(){
         </div>`).join("")}
     </div>
     <div class="card">
-      <h3>Early learning profile</h3>
-      <div class="basis-note">Based on ${lp.based_on_sessions ?? 0} sessions so far — this will keep evolving as more sessions are logged.</div>
+      <h3>Learning profile</h3>
       <div class="profile-grid" style="margin-top:10px;">
         ${[
           ["Engages best when", lp.engages_best_when],
